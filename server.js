@@ -19,8 +19,8 @@ app.post('/api/path', function(req, res) {
 	
 	const payload = req.body;
 
-	const insert_query = 'INSERT into path_history(node, input, create_datetime, last_updated_timestamp) value (?, ?, ?, ?)';
-	const insert_payload = [payload.node, payload.input, new Date(), new Date()];
+	const insert_query = 'INSERT into path_history(node, start, end, create_datetime, last_updated_timestamp) value (?, ?, ?, ?, ?)';
+	const insert_payload = [payload.node, payload.start, payload.end, new Date(), new Date()];
 
 	pool.getConnection()
 		.then(conn => {
@@ -35,29 +35,10 @@ app.post('/api/path', function(req, res) {
 
 });
 
-app.patch('/api/path', function(req, res) {
-	
-	const payload = req.body;
-
-	const update_query = `update path_history set output=${payload.output}, last_updated_timestamp = now() where id = ${payload.id}`;
-
-	pool.getConnection()
-		.then(conn => {
-			conn.query(update_query)
-				.then(result => {
-					res.send(result);
-				});
-		})
-		.catch(err => {
-			res.send(err);
-		});
-
-});
-
 app.get('/test-insert', function(req, res) {
 	pool.getConnection()
 		.then(conn => {
-			conn.query('INSERT into path_history(node, input, output, create_datetime, last_updated_timestamp) value (?, ?, ?, ?, ?)', ['test', 0, 1, new Date(), new Date()])
+			conn.query('INSERT into path_history(node, start, end, create_datetime, last_updated_timestamp) value (?, ?, ?, ?, ?)', ['test', 0, 1, new Date(), new Date()])
 			.then(res => {
 				console.log(res);
 			})
