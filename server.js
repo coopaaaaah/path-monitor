@@ -39,7 +39,7 @@ app.patch('/api/path', function(req, res) {
 	
 	const payload = req.body;
 
-	const update_query = `update path_history set output=${payload.output}, last_updated_timestamp = now()) where id = ${payload.id}`;
+	const update_query = `update path_history set output=${payload.output}, last_updated_timestamp = now() where id = ${payload.id}`;
 
 	pool.getConnection()
 		.then(conn => {
