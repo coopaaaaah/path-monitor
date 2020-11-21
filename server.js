@@ -1,8 +1,12 @@
 require('dotenv').config();
 const mariadb = require('mariadb');
 const express = require('express');
+const bodyParser = require('body-parser');
 
 const app = express();
+
+// parse application/json
+app.use(bodyParser.json())
 
 const pool = mariadb.createPool({ 
 	host: process.env.DB_HOST,
